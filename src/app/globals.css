@@ -49,8 +49,8 @@
 }
 
 :root {
-  --background: #fafafb;
-  --foreground: #1e293b;
+  --background: #020617;
+  --foreground: #f8fafc;
 }
 
 body {
@@ -61,10 +61,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom background pattern for animal footprints */
+/* Custom background pattern for animal footprints (Dark Mode Slate theme) */
 .footprint-bg {
-  background-color: #fafafb;
-  background-image: radial-gradient(#e2e8f0 1.5px, transparent 1.5px), radial-gradient(#e2e8f0 1.5px, #fafafb 1.5px);
+  background-color: #020617;
+  background-image: radial-gradient(#1e293b 1.5px, transparent 1.5px), radial-gradient(#1e293b 1.5px, #020617 1.5px);
   background-size: 40px 40px;
   background-position: 0 0, 20px 20px;
 }
