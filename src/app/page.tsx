@@ -197,6 +197,7 @@ export default function Home() {
   const [similarity, setSimilarity] = useState(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isTypesModalOpen, setIsTypesModalOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -367,7 +368,7 @@ export default function Home() {
           <button onClick={() => showToast("이미 동물상 테스트 화면입니다!")} className="text-sm font-medium text-indigo-950 hover:text-indigo-600 transition-colors cursor-pointer bg-transparent border-none">
             테스트하기
           </button>
-          <button onClick={() => showToast("고양이, 강아지, 토끼, 사막여우, 공룡, 곰상을 분석할 수 있습니다!")} className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors cursor-pointer bg-transparent border-none">
+          <button onClick={() => setIsTypesModalOpen(true)} className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors cursor-pointer bg-transparent border-none">
             동물상 종류
           </button>
           <button onClick={handleShare} className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-95 px-4 py-2 rounded-full shadow-sm hover:shadow-indigo-100 transition-all flex items-center gap-1.5 cursor-pointer border-none">
@@ -408,7 +409,7 @@ export default function Home() {
             <button onClick={() => { setIsMobileMenuOpen(false); showToast("이미 동물상 테스트 화면입니다!"); }} className="text-left py-2 font-semibold text-indigo-650 hover:bg-indigo-50 px-3 rounded-lg transition-colors cursor-pointer bg-transparent border-none">
               🐾 테스트하기
             </button>
-            <button onClick={() => { setIsMobileMenuOpen(false); showToast("고양이, 강아지, 토끼, 사막여우, 공룡, 곰상을 분석할 수 있습니다!"); }} className="text-left py-2 font-medium text-slate-700 hover:bg-indigo-50 px-3 rounded-lg transition-colors cursor-pointer bg-transparent border-none">
+            <button onClick={() => { setIsMobileMenuOpen(false); setIsTypesModalOpen(true); }} className="text-left py-2 font-medium text-slate-700 hover:bg-indigo-50 px-3 rounded-lg transition-colors cursor-pointer bg-transparent border-none">
               🔍 동물상 종류
             </button>
             <button onClick={() => { setIsMobileMenuOpen(false); handleShare(); }} className="text-left py-2 font-medium text-slate-700 hover:bg-indigo-50 px-3 rounded-lg transition-colors flex items-center gap-2 cursor-pointer bg-transparent border-none">
@@ -680,6 +681,132 @@ export default function Home() {
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 text-white text-xs md:text-sm px-5 py-3 rounded-full shadow-lg flex items-center gap-2 border border-slate-800 animate-fade-in">
           <span>🐾</span>
           <span className="font-semibold">{toastMessage}</span>
+        </div>
+      )}
+
+      {/* --- 4. Animal Types Dictionary Modal --- */}
+      {isTypesModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-slate-900/60 backdrop-blur-sm animate-fade-in" onClick={() => setIsTypesModalOpen(false)}>
+          <div 
+            className="bg-white w-full max-w-4xl h-full max-h-[85vh] md:max-h-[80vh] rounded-3xl p-5 md:p-8 flex flex-col justify-between shadow-2xl relative border border-indigo-100 animate-fade-in-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex justify-between items-start border-b border-indigo-50 pb-4">
+              <div>
+                <h2 className="text-lg md:text-2xl font-black text-indigo-950 flex items-center gap-2">
+                  <span>🐾</span> 동물상 종류 도감
+                </h2>
+                <p className="text-xs md:text-sm text-slate-500 mt-1">
+                  애니멀 페이스가 정밀 분석하는 대표적인 5가지 동물상의 핵심 특징을 알아보세요.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsTypesModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-indigo-950 hover:bg-slate-100 rounded-full transition-all cursor-pointer border-none"
+                title="도감 닫기"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Content - Staggered Grid */}
+            <div className="flex-1 overflow-y-auto no-scrollbar py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              {[
+                {
+                  name: "강아지상",
+                  emoji: "🐶",
+                  desc: "둥글둥글하고 순한 눈망울, 처진 눈꼬리가 특징. 친근하고 다정한 이미지.",
+                  color: "text-amber-600 bg-amber-50/70 border-amber-200/60 text-amber-900",
+                  celebs: "박보영, 송중기, 수지",
+                  image: "/images/dog_celeb.png"
+                },
+                {
+                  name: "고양이상",
+                  emoji: "🐱",
+                  desc: "눈꼬리가 위로 올라가 있고 날카로우면서도 매력적인 눈매가 특징. 세련되고 도도한 이미지.",
+                  color: "text-indigo-600 bg-indigo-50/70 border-indigo-200/60 text-indigo-900",
+                  celebs: "제니, 강동원, 한예슬",
+                  image: "/images/cat_celeb.png"
+                },
+                {
+                  name: "사막여우상",
+                  emoji: "🦊",
+                  desc: "큰 귀와 뾰족한 턱선, 가늘고 매력적인 눈매가 특징. 지적이면서도 신비로운 이미지.",
+                  color: "text-orange-600 bg-orange-50/70 border-orange-200/60 text-orange-900",
+                  celebs: "황민현, 예지, 주지훈",
+                  image: "/images/fox_celeb.png"
+                },
+                {
+                  name: "공룡상",
+                  emoji: "🦖",
+                  desc: "굵고 선이 확실한 이목구비, 강인하고 시원시원한 인상이 특징. 개성 있고 카리스마 있는 이미지.",
+                  color: "text-emerald-600 bg-emerald-50/70 border-emerald-200/60 text-emerald-900",
+                  celebs: "공유, 김우빈, 류준열",
+                  image: "/images/dino_celeb.png"
+                },
+                {
+                  name: "토끼상",
+                  emoji: "🐰",
+                  desc: "앞니가 살짝 보이고 맑고 큰 눈, 귀여운 볼살이 특징. 사랑스럽고 보호본능을 자극하는 이미지.",
+                  color: "text-rose-600 bg-rose-50/70 border-rose-200/60 text-rose-900",
+                  celebs: "나연, 정국, 장원영",
+                  image: "/images/rabbit_celeb.png"
+                }
+              ].map((animal, index) => (
+                <div 
+                  key={index}
+                  className="flex flex-col items-center justify-between text-center p-4 border rounded-2xl bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:border-indigo-300 group cursor-default animate-fade-in-up"
+                  style={{
+                    animationDelay: `${index * 120}ms`,
+                    animationFillMode: "forwards",
+                    opacity: 0
+                  }}
+                >
+                  <div className="flex flex-col items-center flex-1">
+                    <span className="text-4xl md:text-5xl mb-3.5 transform group-hover:scale-110 transition-transform duration-300">
+                      {animal.emoji}
+                    </span>
+                    <h3 className="font-bold text-sm md:text-base text-slate-800 mb-2">
+                      {animal.name}
+                    </h3>
+                    <p className="text-[11px] md:text-xs text-slate-500 leading-relaxed font-medium mb-3 flex-1 flex items-center">
+                      {animal.desc}
+                    </p>
+                  </div>
+                  
+                  <div className="w-full mt-2 pt-2.5 border-t border-slate-100 text-left relative group/celeb">
+                    <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">대표 연예인</span>
+                    <span className="text-[10px] md:text-xs font-semibold text-slate-700 block truncate cursor-pointer hover:text-indigo-650 transition-colors">
+                      {animal.celebs}
+                    </span>
+                    
+                    {/* Floating Celebrity Image Tooltip on Hover */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-28 h-28 md:w-32 md:h-32 rounded-xl overflow-hidden shadow-xl border-2 border-indigo-150 z-20 bg-white opacity-0 pointer-events-none invisible scale-90 group-hover/celeb:opacity-100 group-hover/celeb:visible group-hover/celeb:scale-100 transition-all duration-300 ease-out origin-bottom">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={animal.image} 
+                        alt={`${animal.name} 대표`} 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="border-t border-indigo-50 pt-4 flex justify-end">
+              <button
+                onClick={() => setIsTypesModalOpen(false)}
+                className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs md:text-sm shadow-md transition-all active:scale-[0.96] cursor-pointer border-none"
+              >
+                도감 확인 완료
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
