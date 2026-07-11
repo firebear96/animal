@@ -223,6 +223,25 @@ export default function Home() {
     }
   }, [toastMessage]);
 
+  // Register Service Worker for PWA setup
+  useEffect(() => {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      // Register service worker immediately or on load
+      const registerSW = () => {
+        navigator.serviceWorker.register("/sw.js")
+          .then((reg) => console.log("Service worker registered successfully:", reg.scope))
+          .catch((err) => console.error("Service worker registration failed:", err));
+      };
+
+      if (document.readyState === "complete") {
+        registerSW();
+      } else {
+        window.addEventListener("load", registerSW);
+        return () => window.removeEventListener("load", registerSW);
+      }
+    }
+  }, []);
+
   // --- Trigger file selection ---
   const handleDropzoneClick = () => {
     if (fileInputRef.current) {
